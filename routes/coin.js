@@ -1,58 +1,35 @@
-const express = require("express");
+// Con esto:
+import fetch from "node-fetch";
 
+const express = require("express");
 const router = express.Router();
 
-// /coin/
-router
-  .route("/")
-  .get((req, res) => {
-    // query param
-    // req.query.[queryParamName]
-//Para que sirve
-    res.send(
-      `coin`
-    );
-  })
-  .post((req, res) => {
-    res.send(`User id: ${req.params.id}`);
-  })
-  .delete((req, res) => {
-    res.send(`User id: ${req.params.id}`);
-  });
+// Middleware para consultar el precio de la moneda en CoinCap
+async function fetchCoinPrice(coinName) {
+  try {
+    const response = await fetch(`https://api.coincap.io/v2/assets/${coinName}`);
+    const data = await response.json();
+    if (data.data) {
+      return data.data.priceUsd;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching coin data:", error);
+    return null;
+  }
+}
 
-// /users/test
-router.get("/test", (req, res) => {
-  res.send("Users list test - from endpoint");
-});
+// Ruta para obtener el precio de una moneda
+router.get("/coin/:coinName", async (req, res) => {
+  const coinName = req.params.coinName;
+  const price = await fetchCoinPrice(coinName);
 
-// /users/:id
-router.get("/:id", (req, res) => {
-  const userID = req.params.id;
-  const test = req.test;
-
-  res.send(`Listing user with ID ${userID}, ${test}`);
-});
-
-// /users/:id
-// como le queito el hi
-router.get("/:id/hi/:name", (req, res) => { //no es necesario poner : eso solo significs que es variable
-  const userID = req.params.id;
-  const userName = req.params.name;
-
-  res.send(`Listing user with ID ${userID}, say hi ${userName}`);
-});
-
-//   MIDDLEWARE
-router.param("id", (req, res, next, id) => {
-  console.log(id);
-
-  // Este código se añade al request
-  req.userId = id;
-  req.test = "asdadfsdf";
-
-  //   Next -> corre la siguiente linea -> esto es un middleware
-  // middleware -> algo que ocurre entre el momento en que una petición llega al servidor y el momento la respuesta se retorna
-  next();
+  if (price !== null) {
+    res.send(`El precio en dólares de ${coinName} para el día de hoy es ${price}`);
+  } else {
+    res.send("El nombre de la moneda no fue encontrado en la base de datos");
+  }
 });
 
 module.exports = router;
