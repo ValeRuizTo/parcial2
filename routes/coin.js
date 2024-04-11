@@ -1,5 +1,8 @@
+// Reemplaza esto:
+// import fetch from "node-fetch";
+
 // Con esto:
-import fetch from "node-fetch";
+const fetch = require("node-fetch");
 
 const express = require("express");
 const router = express.Router();
