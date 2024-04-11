@@ -9,9 +9,9 @@ router.get("/:count", (req, res) => {
   
   let sortedNombres = nombres.slice(); 
   if (sort === 'ASC') {
-    sortedNombres.sort();
-  } else if (sort === 'DESC') {
     sortedNombres.sort().reverse();
+  } else if (sort === 'DESC') {
+    sortedNombres.sort();
   } else {
     return res.status(400).send('El parámetro sort debe ser ASC o DESC'); 
   }
