@@ -15,7 +15,7 @@ async function fetchCoinPrice(coinName) {
       return null;
     }
   } catch (error) {
-      res.status(404).send("Imput error \n Nombre de la moneda no se encuentra")
+    res.status(404).send("Error cargando los datos");
     return null;
   }
 }
@@ -26,9 +26,9 @@ router.get("/:coinName", async (req, res) => {
   const price = await fetchCoinPrice(coinName);
 
   if (price !== null) {
-    res.send(`El precio en usd de ${coinName} para el día de hoy es ${price}`);
+    res.send(`El precio en USD de ${coinName} para el día de hoy es ${price}`);
   } else {
-    res.status(404).send("Imput error \n Nombre de la moneda no se encuentra")
+    res.status(400).send("Error de entrada: Nombre de la moneda no se encuentra o es incorrecto");
   }
 });
 
