@@ -20,7 +20,7 @@ app.get("/", customLogger, (req, res) => {
   res.send("Im working :)\n Valentina Ruiz");
 });
 
-// Middleware
+// MiddlewareS
 function logger(req, res, next) {
   console.log(req.originalUrl + "from logger");
   next();

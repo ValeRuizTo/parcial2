@@ -20,7 +20,6 @@ async function fetchCoinPrice(coinName) {
   }
 }
 
-// Ruta para obtener el precio de una moneda
 router.get("/:coinName", async (req, res) => {
   const coinName = req.params.coinName;
   const price = await fetchCoinPrice(coinName);
