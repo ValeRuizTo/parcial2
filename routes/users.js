@@ -29,13 +29,16 @@ router.post("/", (req, res) => {
   res.status(201).json(usuario);
 });
 
-
 router.get("/:count", (req, res) => {
   const count = parseInt(req.params.count); 
 
-  
   if (isNaN(count) || count <= 0) {
     return res.status(400).send('El parámetro count debe ser un número positivo mayor que cero');
+  }
+
+  // Verificar si count es mayor que 30
+  if (count > 30) {
+    return res.status(400).send('No hay más de 30 usuarios disponibles');
   }
 
   let sort = req.query.sort || 'ASC'; 
@@ -53,6 +56,7 @@ router.get("/:count", (req, res) => {
   const nombresTexto = sortedNombres.slice(0, count).join('\n');
   res.type('text').send(nombresTexto);
 });
+
 
 
 module.exports = router;
