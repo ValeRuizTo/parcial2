@@ -3,28 +3,6 @@ const router = express.Router();
 const nombres = require('./nombres');
 
 
-router.post("/", (req, res) => {
-  const { nombre, apellido, correo, ciudad, pais } = req.body;
-
-  if (!nombre || !apellido || !correo) {
-    return res.status(400).json({ error: 'Los parámetros nombre, apellido y correo electrónico son obligatorios.' });
-  }
-
-  const ciudadFinal = ciudad || "Bogotá";
-  const paisFinal = pais || "Colombia";
-
-  const usuario = {
-    nombre,
-    apellido,
-    correo,
-    ciudad: ciudadFinal,
-    pais: paisFinal
-  };
-
-  res.status(201).json(usuario);
-});
-
-
 router.get("/:count", (req, res) => {
   const count = parseInt(req.params.count); 
 
@@ -48,6 +26,29 @@ router.get("/:count", (req, res) => {
   const nombresTexto = sortedNombres.slice(0, count).join('\n');
   res.type('text').send(nombresTexto);
 });
+
+
+router.post("/", (req, res) => {
+  const { nombre, apellido, correo, ciudad, pais } = req.body;
+
+  if (!nombre || !apellido || !correo) {
+    return res.status(400).json({ error: 'Los parámetros nombre, apellido y correo electrónico son obligatorios.' });
+  }
+
+  const ciudadFinal = ciudad || "Bogotá";
+  const paisFinal = pais || "Colombia";
+
+  const usuario = {
+    nombre,
+    apellido,
+    correo,
+    ciudad: ciudadFinal,
+    pais: paisFinal
+  };
+
+  res.status(201).json(usuario);
+});
+
 
 
 module.exports = router;
