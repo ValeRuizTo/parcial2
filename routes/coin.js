@@ -2,7 +2,9 @@ const fetch = import("node-fetch").then(module => module.default);
 
 const express = require("express");
 const router = express.Router();
-
+router.get("/",  (req, res) => {
+  res.send("Para obtener el precio de una moneda, por favor complete el endpoint con /nombre_de_la_moneda");
+});
 // Middleware para consultar el precio de la moneda en CoinCap
 async function fetchCoinPrice(coinName) {
   try {
