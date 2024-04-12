@@ -29,30 +29,32 @@ router.post("/", (req, res) => {
   res.status(201).json(usuario);
 });
 
-
 router.get("/:count", (req, res) => {
-  const count = parseInt(req.params.count); 
+  const count = parseInt(req.params.count);
 
-  
   if (isNaN(count) || count <= 0) {
     return res.status(400).send('El parámetro count debe ser un número positivo mayor que cero');
   }
 
-  let sort = req.query.sort || 'ASC'; 
-  sort = sort.toUpperCase(); 
-  
-  let sortedNombres = nombres.slice(); 
+  let sort = req.query.sort || 'ASC';
+  sort = sort.toUpperCase();
+
+  if (sort !== 'ASC' && sort !== 'DESC') {
+    return res.status(400).send('El parámetro sort debe ser ASC o DESC');
+  }
+
+  let sortedNombres = nombres.slice();
+
   if (sort === 'ASC') {
-    sortedNombres.sort().reverse();
-  } else if (sort === 'DESC') {
     sortedNombres.sort();
   } else {
-    return res.status(400).send('El parámetro sort debe ser ASC o DESC'); 
+    sortedNombres.sort().reverse();
   }
 
   const nombresTexto = sortedNombres.slice(0, count).join('\n');
   res.type('text').send(nombresTexto);
 });
+
 
 
 module.exports = router;
