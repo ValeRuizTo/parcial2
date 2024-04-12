@@ -2,8 +2,15 @@ const express = require("express");
 const router = express.Router();
 const nombres = require('./nombres');
 
+function convertToLowercase(req, res, next) {
+  for (let key in req.body) {
+    if (typeof req.body[key] === 'string') {
+      req.body[key] = req.body[key].toLowerCase();
+    }
+  }
+}
 
-router.post("/", (req, res) => {
+router.post("/", convertToLowercase, (req, res) => {
   const { nombre, apellido, correo, ciudad, pais } = req.body;
 
   if (!nombre || !apellido || !correo) {
@@ -11,7 +18,7 @@ router.post("/", (req, res) => {
   }
 
   const ciudadFinal = ciudad || "Bogotá";
-  const paisFinal = pais || "Colombia";
+  const paisFinal = pais || "Colombia"; 
 
   const usuario = {
     nombre,
