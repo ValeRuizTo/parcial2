@@ -28,7 +28,6 @@ router.post("/", (req, res) => {
 
   res.status(201).json(usuario);
 });
-
 router.get("/:count", (req, res) => {
   const count = parseInt(req.params.count);
 
@@ -54,6 +53,7 @@ router.get("/:count", (req, res) => {
   const nombresTexto = sortedNombres.slice(0, count).join('\n');
   res.type('text').send(nombresTexto);
 });
+
 
 
 
