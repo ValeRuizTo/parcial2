@@ -3,6 +3,10 @@ const router = express.Router();
 const nombres = require('./nombres');
 
 
+router.get("/",  (req, res) => {
+  res.send("Crea un usuario  con los siguientes parámetros: nombre, apellido, correo electrónico, ciudad y país.");
+});
+
 router.post("/", (req, res) => {
   const lowercaseBody = {};
   for (let key in req.body) {
